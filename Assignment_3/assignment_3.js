@@ -70,15 +70,22 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// part_2:
 
-// part_2 // question_1
 
-/* 
+/*
     const fs = require('fs');
     const http = require('http');
     const server = http.createServer((req,res)=>{
 
-        if(req.method=='POST' && req.url=='/add-user'){
+        /// in case of get-all-users ///
+        if(req.method=='GET' && req.url=='/get-all-users'){
+            res.write(fs.readFileSync('./users.json','utf-8'));
+            res.end();
+        } /// end of if
+
+        /// in case of add-user ///
+        else if(req.method=='POST' && req.url=='/add-user'){
             // extract the input of the request in body 
             let body='';
             req.on("data",(chunck)=>{
@@ -128,36 +135,10 @@
                     res.end();
                 }
             });
-        }else if(req.method=='GET' && req.url=='/get-all-users'){
-            res.write(fs.readFileSync('./users.json','utf-8'));
-            res.end();
-        }
-        else{
-            res.write("Invalid method or url:\nto add user   -->   '/update-user' + POST Method + input data \nto get all users -->   '/get-all-users' + GET Method");
-            res.end();
-        }
-    });
+        } /// end of if
 
-    server.listen(3001,()=>{
-        console.log('server is running on port 3001');
-    });
-
-*/
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// part_2 // question_2
-
-/*
-
-    const http = require('http');
-    const fs = require('fs');
-
-    const server = http.createServer((req, res)=>{
-        
-        if(req.method=='PATCH' && req.url.startsWith('/update-user/')){
+        /// in case of update-user ///
+        else if(req.method=='PATCH' && req.url.startsWith('/update-user/')){
 
             let body='';
             
@@ -221,33 +202,10 @@
                     res.end();
                 }
             });
-        }else if(req.method=='GET' && req.url=='/get-all-users'){
-            res.write(fs.readFileSync('./users.json','utf-8'));
-            res.end();
-        }else{
-            res.write("Invalid method or url:\nto update user   -->   '/update-user/id' + PATCH Method + input data \nto get all users -->   '/get-all-users' + GET Method");
-            res.end();
-        }
-    });
+        } /// end of if
 
-    server.listen(3002,()=>{
-        console.log('server is running on port 3002');
-    });
-
-*/
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// part_2 // question_3
-
-/*
-
-    const http = require('http');
-    const fs = require('fs');
-
-    const server = http.createServer((req, res)=>{
-        if(req.method=='DELETE' && req.url.startsWith('/delete-user/')){
+        /// in case of delete-user-by-id ///
+        else if(req.method=='DELETE' && req.url.startsWith('/delete-user/')){
             
             // extract inputed_id from url
             let url = req.url;                          // "/user/6"
@@ -286,63 +244,11 @@
 
                 res.end();
             }
-        }
-        else if(req.method=='GET' && req.url=='/get-all-users'){
-                res.write(fs.readFileSync('./users.json','utf-8'));
-                res.end();
-        }
-        else{
-                res.write("Invalid method or url:\nto delete user   -->   '/delete-user/id' + DELETE Method \nto get all users -->   '/get-all-users' + GET Method");
-                res.end();
-        }
-    });
+        } /// end of if
 
-
-    server.listen(3003,()=>{
-        console.log('server is running on port 3003');
-    });
-
-*/
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// part_2 // question_4
-
-/*
-    const http = require('http');
-    const fs = require('fs');
-
-    const server = http.createServer((req,res)=>{
-        if(req.method=='GET' && req.url=='/get-all-users'){
-            res.write(fs.readFileSync('./users.json','utf-8'));
-            res.end();
-        }else{
-            res.write("Invalid method or url:\nto get all users -->   '/get-all-users' + GET Method");
-            res.end();
-        }
-    });
-
-    server.listen(3004,()=>{
-        console.log("server is running on port : 3004");
-    });
-
-*/
-
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-// part_2 // question_5:
-
-/*
-
-    const http = require('http');
-    const fs = require('fs');
-
-    const server = http.createServer((req, res)=>{
-        if(req.method=='GET' && req.url.startsWith('/get-user/')){
+        /// in case of get-user-by-id ///
+        
+        else if(req.method=='GET' && req.url.startsWith('/get-user/')){
             // extract inputed_id from url
             let url = req.url;                          // "/user/6"
             let parts = url.split('/');                 // ["", "user", "6"]
@@ -378,19 +284,17 @@
                 res.write(JSON.stringify(wanted_user));
                 res.end();
             }
-        }
-        else{
-            res.write("Invalid method or url:\nto get user by id -->   '/get-user/id' + GET Method");
-            res.end();
-        }
+        } /// end of if
 
-    });
+}); /////// end of req
 
-    server.listen(3005,()=>{
-        console.log('server is running on port 3005');
-    });
+
+server.listen(3000,()=>{
+    console.log('server is running on port 3000');
+});
 
 */
+
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
